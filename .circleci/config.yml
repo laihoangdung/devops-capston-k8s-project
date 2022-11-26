@@ -6,19 +6,23 @@ jobs:
       - image: golang:1.18-alpine
     steps:
       - checkout
-      # - restore_cache:
-      #     keys: [go-libs]
+      - restore_cache:
+          keys:
+            - go-mod-v1-{{ checksum "go.sum" }}
       - run:
           name: Install dependencies
           command: |
+            # Install go mod
+            make setup
+            make install
             # Install hadolint
             wget -O /bin/hadolint https://github.com/hadolint/hadolint/releases/download/v1.16.3/hadolint-Linux-x86_64 &&\
             chmod +x /bin/hadolint
             # Install golangci-lint
             go install github.com/golangci/golangci-lint/cmd/golangci-lint@v1.50.1
-      # - save_cache:
-      #     paths: [go-libs]
-      #     key: go-libs
+      - save_cache:
+          paths: ["/go/pkg/mod"]
+          key: go-mod-v1-{{ checksum "go.sum" }}
       - run:
           name: run lint
           command: |
