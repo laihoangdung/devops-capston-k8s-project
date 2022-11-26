@@ -1,0 +1,92 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: Set up application
+
+Parameters:
+  EnvironmentName:
+    Type: String
+    Description: Environment Name
+    Default: UdacityProject
+
+  VPC:
+    Type: String
+    Description: VPC
+    Default: vpc-019d45b9e8b4a1a98
+
+  PublicSubnet1A:
+    Type: String
+    Description: Public subnet 1a
+    Default: subnet-04d1b00a92e5d4d3c
+
+  PublicSubnet1B:
+    Type: String
+    Description: Public subnet 1b
+    Default: subnet-0fe08bec310fa6b67
+
+  EKSRole:
+    Description: EKS Cluster Role
+    Type: String
+    Default: arn:aws:iam::016780080563:role/MyEKSClusterRole
+
+  EKSNodeGroupRole:
+    Description: EKS NodeGroup Role
+    Type: String
+    Default: arn:aws:iam::016780080563:role/MyNodeRole
+  
+  NodeSecurityGroup:
+    Description: NodeGroup Security Group
+    Type: String
+    Default: sg-031e3fbf5a5dfbada
+
+  NodeSshKey:
+    Description: Ssh Key For Node Group
+    Type: String
+    Default: udacity
+
+Resources:
+
+  EKSSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties: 
+      GroupDescription: EKS Cluster Security Group
+      VpcId: !Ref VPC
+
+  EKSSecurityGroupIngress:
+    Type: AWS::EC2::SecurityGroupIngress
+    Properties:
+      GroupId: !Ref EKSSecurityGroup
+      IpProtocol: tcp
+      FromPort: 0
+      ToPort: 65535
+      SourceSecurityGroupId: !Ref EKSSecurityGroup
+
+  EKSCluster:
+    Type: 'AWS::EKS::Cluster'
+    Properties:
+      Name: MyEKSCluster
+      RoleArn: !Ref EKSRole
+      ResourcesVpcConfig:
+        SecurityGroupIds:
+          - !Ref EKSSecurityGroup
+        SubnetIds:
+          - !Ref PublicSubnet1A
+          - !Ref PublicSubnet1B
+
+  EKSNodeGroup:
+    Type: 'AWS::EKS::Nodegroup'
+    Properties:
+      ClusterName: !Ref EKSCluster
+      InstanceTypes: 
+        - t3.micro
+      NodeRole: !Ref EKSNodeGroupRole
+      DiskSize: 8
+      RemoteAccess: 
+        Ec2SshKey: !Ref NodeSshKey
+        SourceSecurityGroups: 
+          - !Ref NodeSecurityGroup
+      ScalingConfig:
+        MinSize: 1
+        DesiredSize: 1
+        MaxSize: 2
+      Subnets:
+        - !Ref PublicSubnet1A
+        - !Ref PublicSubnet1B
