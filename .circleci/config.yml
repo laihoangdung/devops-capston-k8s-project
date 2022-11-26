@@ -4,6 +4,7 @@ jobs:
   golang-lint:
     docker:
       - image: golang:1.18-alpine
+    working_directory: ~/repo
     steps:
       - checkout
       - restore_cache:
@@ -12,6 +13,7 @@ jobs:
       - run:
           name: Install dependencies
           command: |
+            apk add --no-cache git make bash
             # Install go mod
             make setup
             make install
