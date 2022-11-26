@@ -20,7 +20,7 @@ jobs:
             wget -O /bin/hadolint https://github.com/hadolint/hadolint/releases/download/v1.16.3/hadolint-Linux-x86_64 &&\
             chmod +x /bin/hadolint
             # Install golangci-lint
-            go install github.com/golangci/golangci-lint/cmd/golangci-lint@v1.50.1
+            go get github.com/golangci/golangci-lint/cmd/golangci-lint@v1.50.1
       - save_cache:
           paths: ["/go/pkg/mod"]
           key: go-mod-v1-{{ checksum "go.sum" }}
