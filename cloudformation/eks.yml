@@ -76,7 +76,7 @@ Resources:
     Properties:
       ClusterName: !Ref EKSCluster
       InstanceTypes: 
-        - t3.micro
+        - t3.medium
       NodeRole: !Ref EKSNodeGroupRole
       DiskSize: 8
       RemoteAccess: 
