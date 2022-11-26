@@ -22,3 +22,8 @@ jobs:
           name: run lint
           command: |
             make lint 
+
+workflows:
+  default:
+    jobs:
+      - golang-lint
