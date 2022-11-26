@@ -13,14 +13,17 @@ jobs:
       - run:
           name: Install dependencies
           command: |
-            apk add --no-cache git make bash
+            apk add --no-cache git make bash curl
+            # Go env
+            go env
             # Install go libaries
             make install
             # Install hadolint
             wget -O /bin/hadolint https://github.com/hadolint/hadolint/releases/download/v1.16.3/hadolint-Linux-x86_64 &&\
             chmod +x /bin/hadolint
             # Install golangci-lint
-            go get github.com/golangci/golangci-lint/cmd/golangci-lint@v1.50.1
+            # go install github.com/golangci/golangci-lint/cmd/golangci-lint@v1.50.1
+            curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin v1.50.1
       - save_cache:
           paths: ["/go/pkg/mod"]
           key: go-mod-v1-{{ checksum "go.sum" }}
