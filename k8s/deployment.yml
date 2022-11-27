@@ -15,7 +15,7 @@ spec:
         app: server-app
     spec:
       containers:
-      - image: hoanglai/my-app:latest
+      - image: 016780080563.dkr.ecr.us-east-1.amazonaws.com/dunglh9-repo:latest
         name: server-app
         imagePullPolicy: Always
         resources:
