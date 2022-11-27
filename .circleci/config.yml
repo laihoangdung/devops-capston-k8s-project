@@ -75,17 +75,17 @@ jobs:
             mkdir -p $HOME/bin && cp ./kubectl $HOME/bin/kubectl && export PATH=$PATH:$HOME/bin
             kubectl version --short --client
             kubectl apply -f k8s/deployment.yml
-            # kubectl apply -f k8s/service.yml
-            # kubectl set image deployments/server-app server-app=016780080563.dkr.ecr.us-east-1.amazonaws.com/dunglh9-repo:${CIRCLE_WORKFLOW_ID:0:7}
+            kubectl apply -f k8s/service.yml
+            kubectl set image deployments/server-app server-app=016780080563.dkr.ecr.us-east-1.amazonaws.com/dunglh9-repo:${CIRCLE_WORKFLOW_ID:0:7}
 
 workflows:
   default:
     jobs:
       # - golang-lint
-      # - run-unit-test
+      - run-unit-test
       # - build-docker-image:
       #     requires: [golang-lint]
       # - build-docker-image
       # - deploy-k8s:
       #     requires: [build-docker-image]
-      - deploy-k8s
+      # - deploy-k8s
