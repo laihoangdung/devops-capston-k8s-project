@@ -39,8 +39,14 @@ jobs:
     steps:
       - checkout
       - aws-ecr/build-and-push-image:
-          repo: "${AWS_RESOURCE_NAME_PREFIX}"
-          tag: "v1.0"
+          account-url: $AWS_ECR_ACCOUNT_URL
+          aws-access-key-id: $AWS_ACCESS_KEY_ID
+          aws-secret-access-key: $AWS_SECRET_ACCESS_KEY
+          dockerfile: Dockerfile
+          path: ./
+          region: $AWS_REGION
+          repo: dunglh9-repo
+          tag: 'v1.0'
       # - run:
       #     name: Build image
       #     command: |
