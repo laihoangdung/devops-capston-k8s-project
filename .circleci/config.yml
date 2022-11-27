@@ -35,7 +35,11 @@ jobs:
             make lint 
   
   build-docker-image:
-    machine: true
+    docker:
+      - image: cimg/go:1.17
+        auth:
+          username: $DOCKER_USERNAME
+          password: $DOCKER_PASSWORD
     steps:
       - checkout
       - run:
@@ -48,7 +52,7 @@ jobs:
           name: Push image to Docker Hub
           command: |
             # docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
-            echo "$DOCKER_PASSWORD" | docker login --username "$DOCKER_USERNAME" --password-stdin
+            # echo "$DOCKER_PASSWORD" | docker login --username "$DOCKER_USERNAME" --password-stdin
             docker push dunglh9/my-app
             echo "Pushed successfully"
 
