@@ -43,7 +43,6 @@ jobs:
           aws-secret-access-key: AWS_SECRET_ACCESS_KEY
           dockerfile: Dockerfile
           path: ./..
-          region: AWS_REGION
           repo: dunglh9-repo
           tag: 'v1.0'
       # - run:
