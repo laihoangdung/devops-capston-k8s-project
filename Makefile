@@ -8,7 +8,7 @@ install:
 
 test:
 	# Run test
-	# go test -v
+	go test ./src/controllers -v
 
 lint:
 	# See local hadolint install instructions:   https://github.com/hadolint/hadolint

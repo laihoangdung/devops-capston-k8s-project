@@ -48,6 +48,13 @@ jobs:
     steps:
       - checkout
       - run:
+          name: Install kubectl
+          command: |
+            curl -o kubectl https://s3.us-west-2.amazonaws.com/amazon-eks/1.22.15/2022-10-31/bin/darwin/amd64/kubectl
+            chmod +x ./kubectl
+            mkdir -p $HOME/bin && cp ./kubectl $HOME/bin/kubectl && export PATH=$HOME/bin:$PATH
+            kubectl version --short --client
+      - run:
           name: Update kube configuration
           command: |
             aws eks update-kubeconfig --region us-east-1 --name MyEKSCluster
@@ -55,8 +62,8 @@ jobs:
           name: Deploy pods
           command: |
             kubectl apply -f k8s/deployment.yml
-            kubectl apply -f k8s/service.yml
-            kubectl set image deployments/server-app server-app=016780080563.dkr.ecr.us-east-1.amazonaws.com/dunglh9-repo:${CIRCLE_WORKFLOW_ID:0:7}
+            # kubectl apply -f k8s/service.yml
+            # kubectl set image deployments/server-app server-app=016780080563.dkr.ecr.us-east-1.amazonaws.com/dunglh9-repo:${CIRCLE_WORKFLOW_ID:0:7}
 
 workflows:
   default:
@@ -64,6 +71,7 @@ workflows:
       # - golang-lint
       # - build-docker-image:
       #     requires: [golang-lint]
-      - build-docker-image
-      - deploy-k8s:
-          requires: [build-docker-image]
+      # - build-docker-image
+      # - deploy-k8s:
+      #     requires: [build-docker-image]
+      - deploy-k8s
