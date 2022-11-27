@@ -39,10 +39,10 @@ jobs:
     steps:
       - checkout
       - aws-ecr/build-and-push-image:
-          aws-access-key-id: AWS_ACCESS_KEY_ID
-          aws-secret-access-key: AWS_SECRET_ACCESS_KEY
-          dockerfile: Dockerfile
-          path: ./..
+          # aws-access-key-id: AWS_ACCESS_KEY_ID
+          # aws-secret-access-key: AWS_SECRET_ACCESS_KEY
+          # dockerfile: Dockerfile
+          # path: ./..
           repo: dunglh9-repo
           tag: 'v1.0'
       # - run:
