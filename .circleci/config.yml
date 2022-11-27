@@ -38,12 +38,12 @@ jobs:
     machine: true
     steps:
       - checkout
-      # - run:
-      #     name: Build image
-      #     command: |
-      #       docker --version
-      #       docker build -t dunglh9/my-app .
-      #       docker tag dunglh9/my-app dunglh9/my-app
+      - run:
+          name: Build image
+          command: |
+            docker --version
+            docker build -t dunglh9/my-app .
+            docker tag dunglh9/my-app dunglh9/my-app
       - run:
           name: Push image to Docker Hub
           command: |
@@ -52,7 +52,7 @@ jobs:
             # echo "$DOCKER_PASSWORD" | docker login --username "$DOCKER_USERNAME" --password-stdin
             cat dockerpass.txt | docker login --username "$DOCKER_USERNAME" --password-stdin
             rm dockerpass.txt
-            # docker push dunglh9/my-app
+            docker push dunglh9/my-app
             echo "Pushed successfully"
 
 workflows:
