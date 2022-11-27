@@ -33,6 +33,22 @@ jobs:
           name: run lint
           command: |
             make lint 
+
+  run-unit-test:
+    docker:
+      - image: golang:1.18-alpine
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - go-mod-v1-{{ checksum "go.sum" }}
+      - run:
+          name: Install dependencies
+          command: |
+            # Install go libaries
+            make install
+            # Run unit test
+            make test
   
   build-docker-image:
     machine: true
@@ -52,7 +68,7 @@ jobs:
           command: |
             curl -o kubectl https://s3.us-west-2.amazonaws.com/amazon-eks/1.22.15/2022-10-31/bin/darwin/amd64/kubectl
             chmod +x ./kubectl
-            mkdir -p $HOME/bin && cp ./kubectl $HOME/bin/kubectl && export PATH=$HOME/bin:$PATH
+            # mkdir -p $HOME/bin && cp ./kubectl $HOME/bin/kubectl && export PATH=$HOME/bin:$PATH
             kubectl version --short --client
       - run:
           name: Update kube configuration
@@ -69,6 +85,7 @@ workflows:
   default:
     jobs:
       # - golang-lint
+      # - run-unit-test
       # - build-docker-image:
       #     requires: [golang-lint]
       # - build-docker-image
