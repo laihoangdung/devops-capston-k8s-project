@@ -19,10 +19,12 @@ In this project, I use the k8s to build to Golang APIs server application. This 
 11. Makefile: define common commands help to install libraries, test, lint the application
 12. go.mod: golang libraries to use in the web application
 13. run_docker.sh: use to test the container image
-14. run_kubernetes.sh: deploy application to kubenetes cluster
 15. upload_docker.sh: test to push docker image to docker hub
 
 
+# GitHub repository
+https://github.com/laihoangdung/devops-capston-k8s-project
+
 # APIs
-1. Check health: 
+1. Check health: http://ab4bbb6dc72f845b2a4d98d74bfc5ae2-1054660999.us-east-1.elb.amazonaws.com:8080/check-health
 2. Get list of users: http://ab4bbb6dc72f845b2a4d98d74bfc5ae2-1054660999.us-east-1.elb.amazonaws.com:8080/users
