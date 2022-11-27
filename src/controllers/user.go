@@ -34,6 +34,11 @@ func GetAllUsers(ctx *gin.Context) {
 			Name: "Kaka",
 			Age: 24,
 		},
+		{
+			Id: 6,
+			Name: "Mbappe",
+			Age: 25,
+		},
 	}
 
 	ctx.JSON(200, gin.H{
