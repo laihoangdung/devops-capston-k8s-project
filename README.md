@@ -22,9 +22,9 @@ In this project, I use the k8s to build to Golang APIs server application. This 
 15. upload_docker.sh: test to push docker image to docker hub
 
 
-# GitHub repository
+### GitHub repository
 https://github.com/laihoangdung/devops-capston-k8s-project
 
-# APIs
+### APIs
 1. Check health: http://ab4bbb6dc72f845b2a4d98d74bfc5ae2-1054660999.us-east-1.elb.amazonaws.com:8080/check-health
 2. Get list of users: http://ab4bbb6dc72f845b2a4d98d74bfc5ae2-1054660999.us-east-1.elb.amazonaws.com:8080/users
