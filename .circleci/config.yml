@@ -1,7 +1,7 @@
 version: 2.1
 
 orbs:
-  docker: circleci/docker@1.4.0
+  aws-ecr: circleci/aws-ecr@8.1.3
 
 jobs:
   golang-lint:
@@ -38,22 +38,25 @@ jobs:
     machine: true
     steps:
       - checkout
-      - run:
-          name: Build image
-          command: |
-            docker --version
-            docker build -t dunglh9/my-app .
-            docker tag dunglh9/my-app dunglh9/my-app
-      - run:
-          name: Push image to Docker Hub
-          command: |
-            echo $DOCKER_PASSWORD > dockerpass.txt
-            # docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
-            # echo "$DOCKER_PASSWORD" | docker login --username "$DOCKER_USERNAME" --password-stdin
-            cat dockerpass.txt | docker login --username "$DOCKER_USERNAME" --password-stdin
-            rm dockerpass.txt
-            docker push dunglh9/my-app
-            echo "Pushed successfully"
+      - aws-ecr/build-and-push-image:
+          repo: "${AWS_RESOURCE_NAME_PREFIX}"
+          tag: "v1.0"
+      # - run:
+      #     name: Build image
+      #     command: |
+      #       docker --version
+      #       docker build -t dunglh9/my-app .
+      #       docker tag dunglh9/my-app dunglh9/my-app
+      # - run:
+      #     name: Push image to Docker Hub
+      #     command: |
+      #       echo $DOCKER_PASSWORD > dockerpass.txt
+      #       # docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+      #       # echo "$DOCKER_PASSWORD" | docker login --username "$DOCKER_USERNAME" --password-stdin
+      #       cat dockerpass.txt | docker login --username "$DOCKER_USERNAME" --password-stdin
+      #       rm dockerpass.txt
+      #       docker push dunglh9/my-app
+      #       echo "Pushed successfully"
 
 workflows:
   default:
