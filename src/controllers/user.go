@@ -24,21 +24,21 @@ func GetAllUsers(ctx *gin.Context) {
 			Name: "Ronaldo",
 			Age: 22,
 		},
-		{
-			Id: 4,
-			Name: "Messi",
-			Age: 23,
-		},
-		{
-			Id: 5,
-			Name: "Kaka",
-			Age: 24,
-		},
-		{
-			Id: 6,
-			Name: "Mbappe",
-			Age: 25,
-		},
+		// {
+		// 	Id: 4,
+		// 	Name: "Messi",
+		// 	Age: 23,
+		// },
+		// {
+		// 	Id: 5,
+		// 	Name: "Kaka",
+		// 	Age: 24,
+		// },
+		// {
+		// 	Id: 6,
+		// 	Name: "Mbappe",
+		// 	Age: 25,
+		// },
 	}
 
 	ctx.JSON(200, gin.H{

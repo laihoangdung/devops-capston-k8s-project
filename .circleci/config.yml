@@ -41,9 +41,29 @@ jobs:
       - aws-ecr/build-and-push-image:
           repo: dunglh9-repo
           tag: 'latest,${CIRCLE_WORKFLOW_ID:0:7}'
+  
+  deploy-k8s:
+    docker:
+      - image: amazon/aws-cli
+    steps:
+      - checkout
+      - run:
+          name: Update kube configuration
+          command: |
+            aws eks --region us-west-2 update-kubeconfig --name MyEKSCluster
+      - run:
+          name: Deploy pods
+          command: |
+            kubectl apply -f k8s/deployment.yml
+            kubectl apply -f k8s/service.yml
+            kubectl set image deployments/server-app server-app=016780080563.dkr.ecr.us-east-1.amazonaws.com/dunglh9-repo:${CIRCLE_WORKFLOW_ID:0:7}
 
 workflows:
   default:
     jobs:
       # - golang-lint
+      # - build-docker-image:
+      #     requires: [golang-lint]
       - build-docker-image
+      - deploy-k8s:
+          requires: [build-docker-image]
